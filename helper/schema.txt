@@ -1,0 +1,62 @@
+table vetclinic_procedures{
+  PetID CHAR(7)
+  Date DATE
+  ProcedureType VARCHAR
+  ProcedureSubCode CHAR(2)
+  Description VARCHAR
+  Price FLOAT
+  PetName VARCHAR
+  PetGender VARCHAR
+  PetKind VARCHAR
+  PetAge SMALLINT
+  OwnerID CHAR(4)
+  OwnerName VARCHAR
+  OwnerSurname VARCHAR
+  StreetAddress VARCHAR
+  City VARCHAR
+  State VARCHAR
+  StateFull CHAR(2)
+  ZipCode CHAR(5)
+}
+
+table procedures_history{
+  ProcedureID SERIAL [pk]
+  PetID CHAR(7) [ref: > pets.PetID]
+  Date DATE
+  ProcedureType VARCHAR
+  ProcedureSubCode CHAR(2)
+}
+
+
+table procedures_details{
+  ProcedureType VARCHAR
+  ProcedureSubCode CHAR(2)
+  Description TEXT
+  Price FLOAT
+  
+  indexes{
+    (ProcedureType, ProcedureSubCode) [pk]
+  }
+}
+
+Ref: procedures_history.(ProcedureType, ProcedureSubCode) > procedures_details.(ProcedureType, ProcedureSubCode)
+
+table pets{
+  PetID CHAR(7) [pk]
+  PetName VARCHAR
+  PetKind VARCHAR
+  PetGender VARCHAR
+  PetAge SMALLINT
+  OwnerID CHAR(4) [ref: > owners.OwnerID]
+}
+
+table owners{
+  OwnerID CHAR(4) [pk]
+  OwnerName VARCHAR
+  OwnerSurname VARCHAR
+  StreetAddress VARCHAR
+  City VARCHAR
+  State CHAR(2)
+  StateFull VARCHAR
+  ZipCode CHAR(5)
+}
